@@ -1,0 +1,24 @@
+# Data
+
+```{python}
+#| echo: false
+#| 
+import os
+import pandas as pd
+
+directory = 'data'
+
+file_list = []
+
+for entry in os.scandir(directory):  
+    if entry.is_file() and entry.name.endswith('_info.csv'):
+        data_filename = entry.name[:-9] + ".csv"
+        info_filename = entry.name
+        file_list.append([f"[{data_filename}](data/{data_filename})", f"[{info_filename}](data/{info_filename})"])
+
+df_file_list = pd.DataFrame(file_list)
+df_file_list.columns = ["Data File", "Info File"]
+
+df_file_list.to_html(index=False)
+
+```

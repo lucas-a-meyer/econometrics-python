@@ -17,6 +17,25 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -27,7 +46,7 @@ ul.task-list{list-style: none;}
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
+<link href="./01-linear-regression.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -96,12 +115,12 @@ ul.task-list{list-style: none;}
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./01-linear-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Regression</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -118,7 +137,12 @@ ul.task-list{list-style: none;}
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
+  <ul class="collapse">
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#why-do-econometrics-with-python" id="toc-why-do-econometrics-with-python" class="nav-link" data-scroll-target="#why-do-econometrics-with-python">Why do Econometrics with Python</a></li>
+  <li><a href="#what-this-book-is-and-what-this-isnt" id="toc-what-this-book-is-and-what-this-isnt" class="nav-link" data-scroll-target="#what-this-book-is-and-what-this-isnt">What this “book” is, and what this isn’t</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -155,10 +179,35 @@ ul.task-list{list-style: none;}
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
+<p>This is not a real book, at least not yet. This is my way of studying Econometrics with Python: I’m writing about it as if it were a book. Maybe, through writing it openly, I’m going to figure out that there’s really enough material for a real book here. For now, there isn’t - this is just me, learning. To streamline my learning, I’m writing this using the <a href="https://quarto.org/">Quarto</a> publishing platform, and attempting to learn two three things at once: getting better at Econometrics, Python <em>and</em> Quarto.</p>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>For most of my life, I have done applied Econometrics using <a href="https://www.stata.com">Stata</a> and <a href="https://www.r-project.org">R</a>. These are great options. In particular, they have a great support community (R more than Stata), and good quality control (Stata more than R).</p>
+<p>Doing econometric analysis in Stata is extremely natural (for an Economist, at least). Really complex models are just a quick command away. In 2010, this was not the case for R. The main textbook to learn how to use R for econometric analysis was “Applied Econometrics with R” <span class="citation" data-cites="Kleiber2008">(<a href="references.html#ref-Kleiber2008" role="doc-biblioref">Kleiber and Zeileis 2008</a>)</span>, and this was before the <a href="https://www.tidyverse.org/">tidyverse</a>. There were not that many packages, and sometimes the results of the packages didn’t match the results of established commercial products, like Stata, SAS and EViews.</p>
+<p>Since then, the R ecosystem evolved a lot, and my guess is that now most Economists start their careers with R. The commonly used Econometrics book “Introductory Econometrics: A Moderrn Aproach | 7th Edition” <span class="citation" data-cites="wooldridge2015">(<a href="references.html#ref-wooldridge2015" role="doc-biblioref">Wooldridge 2015</a>)</span> comes with files in many formats: Eviews, Stata, Excel, Minitab, and recently, R. Of those, R has the tremendous advantage to be free.</p>
+<p>What I couldn’t find yet was a good text teaching how to do applied econometric analysis using Python.</p>
+</section>
+<section id="why-do-econometrics-with-python" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-econometrics-with-python">Why do Econometrics with Python</h2>
+<p>The reality is that you don’t usually need Python to do econometric analysis. The existing toolset (SAS, R, Stata) is already sufficient. Most Economists will rarely need to write general-purpose code or train machine learning models, and to the extent that they do, the existin toolset can probably support them.</p>
+<p>There’s a specific class of practicioners that do econometric analysis, write general-purpose code and train machine learning models: financial analysts. Most people don’t even know that the <a href="https://pandas.pydata.org/about/index.html">original use case</a> for <a href="https://pandas.pydata.org/"><code>pandas</code></a> was doing finance at AQR capital. Although there doesn’t seem to be a book teaching how to do applied econometrics using Python, such practitioners can easily make do by becoming accomplished in multiple languages and platforms, for example doing their econometric analysis in R and training a machine learning model in Python. That is, however, mentally expensive. In addition, similar to the environment for R in the mid-2000s, packages to do econometrics for Python were few and far between until recently. That’s not the case anymore.</p>
+</section>
+<section id="what-this-book-is-and-what-this-isnt" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-book-is-and-what-this-isnt">What this “book” is, and what this isn’t</h2>
+<p>I’m writing this book “in the open”. This work isn’t (yet) going to teach you any econometric theory, and for several months (or perhaps years), this may be no more than a collection of demonstrations of how to solve econometric problems that can be found in textbooks, but using Python.</p>
+<p>This isn’t intended to teach anyone else other than me (at least, not yet).</p>
+<p>However, who knows what the future holds?</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-Kleiber2008" class="csl-entry" role="doc-biblioentry">
+Kleiber, Christian, and Achim Zeileis. 2008. <em>Applied Econometrics with r</em>. <em>Applied Econometrics with R</em>. Springer New York. <a href="https://doi.org/10.1007/978-0-387-77318-6">https://doi.org/10.1007/978-0-387-77318-6</a>.
+</div>
+<div id="ref-wooldridge2015" class="csl-entry" role="doc-biblioentry">
+Wooldridge, Jeffrey M. 2015. <em>Introductory Econometrics: A Modern Approach</em>. Cengage learning.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -245,8 +294,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./01-linear-regression.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

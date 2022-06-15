@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.583">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Learning Econometrics with Python - 2&nbsp; Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./01-linear-regression.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Learning Econometrics with Python</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-linear-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Regression</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+
+<table class="dataframe table table-sm table-striped">
+
+<thead>
+
+<tr>
+
+<th>
+Data File
+</th>
+
+<th>
+Info File
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<a href="data/expendshares.csv">expendshares.csv</a>
+</td>
+
+<td>
+<a href="data/expendshares_info.csv">expendshares_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/cps91.csv">cps91.csv</a>
+</td>
+
+<td>
+<a href="data/cps91_info.csv">cps91_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/jtrain3.csv">jtrain3.csv</a>
+</td>
+
+<td>
+<a href="data/jtrain3_info.csv">jtrain3_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/murder.csv">murder.csv</a>
+</td>
+
+<td>
+<a href="data/murder_info.csv">murder_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/hprice1.csv">hprice1.csv</a>
+</td>
+
+<td>
+<a href="data/hprice1_info.csv">hprice1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/smoke.csv">smoke.csv</a>
+</td>
+
+<td>
+<a href="data/smoke_info.csv">smoke_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/airfare.csv">airfare.csv</a>
+</td>
+
+<td>
+<a href="data/airfare_info.csv">airfare_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/rdtelec.csv">rdtelec.csv</a>
+</td>
+
+<td>
+<a href="data/rdtelec_info.csv">rdtelec_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/bwght.csv">bwght.csv</a>
+</td>
+
+<td>
+<a href="data/bwght_info.csv">bwght_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/happiness.csv">happiness.csv</a>
+</td>
+
+<td>
+<a href="data/happiness_info.csv">happiness_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/athlet1.csv">athlet1.csv</a>
+</td>
+
+<td>
+<a href="data/athlet1_info.csv">athlet1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/fertil3.csv">fertil3.csv</a>
+</td>
+
+<td>
+<a href="data/fertil3_info.csv">fertil3_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/injury.csv">injury.csv</a>
+</td>
+
+<td>
+<a href="data/injury_info.csv">injury_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/401ksubs.csv">401ksubs.csv</a>
+</td>
+
+<td>
+<a href="data/401ksubs_info.csv">401ksubs_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/traffic2.csv">traffic2.csv</a>
+</td>
+
+<td>
+<a href="data/traffic2_info.csv">traffic2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/ezanders.csv">ezanders.csv</a>
+</td>
+
+<td>
+<a href="data/ezanders_info.csv">ezanders_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/wage2.csv">wage2.csv</a>
+</td>
+
+<td>
+<a href="data/wage2_info.csv">wage2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/alcohol.csv">alcohol.csv</a>
+</td>
+
+<td>
+<a href="data/alcohol_info.csv">alcohol_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/charity.csv">charity.csv</a>
+</td>
+
+<td>
+<a href="data/charity_info.csv">charity_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/meapsingle.csv">meapsingle.csv</a>
+</td>
+
+<td>
+<a href="data/meapsingle_info.csv">meapsingle_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/corn.csv">corn.csv</a>
+</td>
+
+<td>
+<a href="data/corn_info.csv">corn_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/cement.csv">cement.csv</a>
+</td>
+
+<td>
+<a href="data/cement_info.csv">cement_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/htv.csv">htv.csv</a>
+</td>
+
+<td>
+<a href="data/htv_info.csv">htv_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/loanapp.csv">loanapp.csv</a>
+</td>
+
+<td>
+<a href="data/loanapp_info.csv">loanapp_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/beauty.csv">beauty.csv</a>
+</td>
+
+<td>
+<a href="data/beauty_info.csv">beauty_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/crime3.csv">crime3.csv</a>
+</td>
+
+<td>
+<a href="data/crime3_info.csv">crime3_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/attend.csv">attend.csv</a>
+</td>
+
+<td>
+<a href="data/attend_info.csv">attend_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/twoyear.csv">twoyear.csv</a>
+</td>
+
+<td>
+<a href="data/twoyear_info.csv">twoyear_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/lawsch85.csv">lawsch85.csv</a>
+</td>
+
+<td>
+<a href="data/lawsch85_info.csv">lawsch85_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/phillips.csv">phillips.csv</a>
+</td>
+
+<td>
+<a href="data/phillips_info.csv">phillips_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/pension.csv">pension.csv</a>
+</td>
+
+<td>
+<a href="data/pension_info.csv">pension_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/nyse.csv">nyse.csv</a>
+</td>
+
+<td>
+<a href="data/nyse_info.csv">nyse_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/intdef.csv">intdef.csv</a>
+</td>
+
+<td>
+<a href="data/intdef_info.csv">intdef_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/benefits.csv">benefits.csv</a>
+</td>
+
+<td>
+<a href="data/benefits_info.csv">benefits_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/rental.csv">rental.csv</a>
+</td>
+
+<td>
+<a href="data/rental_info.csv">rental_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/mathpnl.csv">mathpnl.csv</a>
+</td>
+
+<td>
+<a href="data/mathpnl_info.csv">mathpnl_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/gpa1.csv">gpa1.csv</a>
+</td>
+
+<td>
+<a href="data/gpa1_info.csv">gpa1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/discrim.csv">discrim.csv</a>
+</td>
+
+<td>
+<a href="data/discrim_info.csv">discrim_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/wageprc.csv">wageprc.csv</a>
+</td>
+
+<td>
+<a href="data/wageprc_info.csv">wageprc_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/wage1.csv">wage1.csv</a>
+</td>
+
+<td>
+<a href="data/wage1_info.csv">wage1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/pntsprd.csv">pntsprd.csv</a>
+</td>
+
+<td>
+<a href="data/pntsprd_info.csv">pntsprd_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/big9salary.csv">big9salary.csv</a>
+</td>
+
+<td>
+<a href="data/big9salary_info.csv">big9salary_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/elem94_95.csv">elem94_95.csv</a>
+</td>
+
+<td>
+<a href="data/elem94_95_info.csv">elem94_95_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/bwght2.csv">bwght2.csv</a>
+</td>
+
+<td>
+<a href="data/bwght2_info.csv">bwght2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/mlb1.csv">mlb1.csv</a>
+</td>
+
+<td>
+<a href="data/mlb1_info.csv">mlb1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/crime4.csv">crime4.csv</a>
+</td>
+
+<td>
+<a href="data/crime4_info.csv">crime4_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/okun.csv">okun.csv</a>
+</td>
+
+<td>
+<a href="data/okun_info.csv">okun_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/volat.csv">volat.csv</a>
+</td>
+
+<td>
+<a href="data/volat_info.csv">volat_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/consump.csv">consump.csv</a>
+</td>
+
+<td>
+<a href="data/consump_info.csv">consump_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/beveridge.csv">beveridge.csv</a>
+</td>
+
+<td>
+<a href="data/beveridge_info.csv">beveridge_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/census2000.csv">census2000.csv</a>
+</td>
+
+<td>
+<a href="data/census2000_info.csv">census2000_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/nbasal.csv">nbasal.csv</a>
+</td>
+
+<td>
+<a href="data/nbasal_info.csv">nbasal_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/hprice3.csv">hprice3.csv</a>
+</td>
+
+<td>
+<a href="data/hprice3_info.csv">hprice3_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/vote2.csv">vote2.csv</a>
+</td>
+
+<td>
+<a href="data/vote2_info.csv">vote2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/engin.csv">engin.csv</a>
+</td>
+
+<td>
+<a href="data/engin_info.csv">engin_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/gpa3.csv">gpa3.csv</a>
+</td>
+
+<td>
+<a href="data/gpa3_info.csv">gpa3_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/catholic.csv">catholic.csv</a>
+</td>
+
+<td>
+<a href="data/catholic_info.csv">catholic_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/return.csv">return.csv</a>
+</td>
+
+<td>
+<a href="data/return_info.csv">return_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/fish.csv">fish.csv</a>
+</td>
+
+<td>
+<a href="data/fish_info.csv">fish_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/fertil2.csv">fertil2.csv</a>
+</td>
+
+<td>
+<a href="data/fertil2_info.csv">fertil2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/earns.csv">earns.csv</a>
+</td>
+
+<td>
+<a href="data/earns_info.csv">earns_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/barium.csv">barium.csv</a>
+</td>
+
+<td>
+<a href="data/barium_info.csv">barium_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/minwage.csv">minwage.csv</a>
+</td>
+
+<td>
+<a href="data/minwage_info.csv">minwage_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/recid.csv">recid.csv</a>
+</td>
+
+<td>
+<a href="data/recid_info.csv">recid_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/meap00_01.csv">meap00_01.csv</a>
+</td>
+
+<td>
+<a href="data/meap00_01_info.csv">meap00_01_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/openness.csv">openness.csv</a>
+</td>
+
+<td>
+<a href="data/openness_info.csv">openness_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/meap01.csv">meap01.csv</a>
+</td>
+
+<td>
+<a href="data/meap01_info.csv">meap01_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/wine.csv">wine.csv</a>
+</td>
+
+<td>
+<a href="data/wine_info.csv">wine_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/athlet2.csv">athlet2.csv</a>
+</td>
+
+<td>
+<a href="data/athlet2_info.csv">athlet2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/mroz.csv">mroz.csv</a>
+</td>
+
+<td>
+<a href="data/mroz_info.csv">mroz_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/apple.csv">apple.csv</a>
+</td>
+
+<td>
+<a href="data/apple_info.csv">apple_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/fertil1.csv">fertil1.csv</a>
+</td>
+
+<td>
+<a href="data/fertil1_info.csv">fertil1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/wagepan.csv">wagepan.csv</a>
+</td>
+
+<td>
+<a href="data/wagepan_info.csv">wagepan_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/gpa2.csv">gpa2.csv</a>
+</td>
+
+<td>
+<a href="data/gpa2_info.csv">gpa2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/hprice2.csv">hprice2.csv</a>
+</td>
+
+<td>
+<a href="data/hprice2_info.csv">hprice2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/crime2.csv">crime2.csv</a>
+</td>
+
+<td>
+<a href="data/crime2_info.csv">crime2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/saving.csv">saving.csv</a>
+</td>
+
+<td>
+<a href="data/saving_info.csv">saving_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/audit.csv">audit.csv</a>
+</td>
+
+<td>
+<a href="data/audit_info.csv">audit_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/infmrt.csv">infmrt.csv</a>
+</td>
+
+<td>
+<a href="data/infmrt_info.csv">infmrt_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/traffic1.csv">traffic1.csv</a>
+</td>
+
+<td>
+<a href="data/traffic1_info.csv">traffic1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/slp75_81.csv">slp75_81.csv</a>
+</td>
+
+<td>
+<a href="data/slp75_81_info.csv">slp75_81_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/prminwge.csv">prminwge.csv</a>
+</td>
+
+<td>
+<a href="data/prminwge_info.csv">prminwge_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/voucher.csv">voucher.csv</a>
+</td>
+
+<td>
+<a href="data/voucher_info.csv">voucher_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/hseinv.csv">hseinv.csv</a>
+</td>
+
+<td>
+<a href="data/hseinv_info.csv">hseinv_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/401k.csv">401k.csv</a>
+</td>
+
+<td>
+<a href="data/401k_info.csv">401k_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/jtrain.csv">jtrain.csv</a>
+</td>
+
+<td>
+<a href="data/jtrain_info.csv">jtrain_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/ezunem.csv">ezunem.csv</a>
+</td>
+
+<td>
+<a href="data/ezunem_info.csv">ezunem_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/card.csv">card.csv</a>
+</td>
+
+<td>
+<a href="data/card_info.csv">card_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/crime1.csv">crime1.csv</a>
+</td>
+
+<td>
+<a href="data/crime1_info.csv">crime1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/rdchem.csv">rdchem.csv</a>
+</td>
+
+<td>
+<a href="data/rdchem_info.csv">rdchem_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/prison.csv">prison.csv</a>
+</td>
+
+<td>
+<a href="data/prison_info.csv">prison_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/admnrev.csv">admnrev.csv</a>
+</td>
+
+<td>
+<a href="data/admnrev_info.csv">admnrev_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/meap93.csv">meap93.csv</a>
+</td>
+
+<td>
+<a href="data/meap93_info.csv">meap93_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/jtrain2.csv">jtrain2.csv</a>
+</td>
+
+<td>
+<a href="data/jtrain2_info.csv">jtrain2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/lowbrth.csv">lowbrth.csv</a>
+</td>
+
+<td>
+<a href="data/lowbrth_info.csv">lowbrth_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/fair.csv">fair.csv</a>
+</td>
+
+<td>
+<a href="data/fair_info.csv">fair_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/affairs.csv">affairs.csv</a>
+</td>
+
+<td>
+<a href="data/affairs_info.csv">affairs_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/cps78_85.csv">cps78_85.csv</a>
+</td>
+
+<td>
+<a href="data/cps78_85_info.csv">cps78_85_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/econmath.csv">econmath.csv</a>
+</td>
+
+<td>
+<a href="data/econmath_info.csv">econmath_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/vote1.csv">vote1.csv</a>
+</td>
+
+<td>
+<a href="data/vote1_info.csv">vote1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/countymurders.csv">countymurders.csv</a>
+</td>
+
+<td>
+<a href="data/countymurders_info.csv">countymurders_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/intqrt.csv">intqrt.csv</a>
+</td>
+
+<td>
+<a href="data/intqrt_info.csv">intqrt_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/inven.csv">inven.csv</a>
+</td>
+
+<td>
+<a href="data/inven_info.csv">inven_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/ceosal1.csv">ceosal1.csv</a>
+</td>
+
+<td>
+<a href="data/ceosal1_info.csv">ceosal1_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/ceosal2.csv">ceosal2.csv</a>
+</td>
+
+<td>
+<a href="data/ceosal2_info.csv">ceosal2_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/campus.csv">campus.csv</a>
+</td>
+
+<td>
+<a href="data/campus_info.csv">campus_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/kielmc.csv">kielmc.csv</a>
+</td>
+
+<td>
+<a href="data/kielmc_info.csv">kielmc_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/driving.csv">driving.csv</a>
+</td>
+
+<td>
+<a href="data/driving_info.csv">driving_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/approval.csv">approval.csv</a>
+</td>
+
+<td>
+<a href="data/approval_info.csv">approval_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/sleep75.csv">sleep75.csv</a>
+</td>
+
+<td>
+<a href="data/sleep75_info.csv">sleep75_info.csv</a>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<a href="data/fringe.csv">fringe.csv</a>
+</td>
+
+<td>
+<a href="data/fringe_info.csv">fringe_info.csv</a>
+</td>
+
+</tr>
+
+</tbody>
+
+
+</table>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-linear-regression.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
