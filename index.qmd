@@ -1,3 +1,6 @@
+---
+include-in-header: _msft-clarity.html
+---
 # Preface {.unnumbered}
 
 This is not a real book, at least not yet. This is my way of studying Econometrics with Python: I'm writing about it as if it were a book. 
